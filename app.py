@@ -4,11 +4,32 @@ from openai import OpenAI
 # --- PAGE CONFIGURATION ---
 st.set_page_config(page_title="BEACON", page_icon="✨", layout="wide")
 
+# --- CUSTOM BACKGROUND MAGIC ---
+page_bg_img = """
+<style>
+[data-testid="stAppViewContainer"] {
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+[data-testid="stHeader"] {
+    background: rgba(0,0,0,0);
+}
+[data-testid="stVerticalBlock"] > [style*="flex-direction: column;"] > [data-testid="stVerticalBlock"] {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+    padding: 10px;
+}
+</style>
+"""
+st.markdown(page_bg_img, unsafe_allow_html=True)
+
 # --- INITIALIZE AI CLIENT ---
-# ⚠️ REPLACE THE STRING BELOW WITH YOUR ACTUAL GROQ API KEY (keep the quotes)
+# We use st.secrets here so your key is safe on GitHub
 client = OpenAI(
     base_url="https://api.groq.com/openai/v1",
-    api_key="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" 
+    api_key=st.secrets["GROQ_API_KEY"] 
 )
 
 # --- MOCK DATA (The Student's Life) ---
@@ -79,7 +100,7 @@ if st.button("🚨 Run AI Conflict Analysis", type="primary"):
             st.session_state['ai_plan'] = ai_output
             
         except Exception as e:
-            st.error(f"Error connecting to AI: {e}\n\n*Tip: If it's a 404 error, try changing the model in the code to 'openai/gpt-oss-120b'*")
+            st.error(f"Error connecting to AI: {e}")
 
 # --- THE CORRECTION LOOP (The Hackathon Winning Feature) ---
 if 'ai_plan' in st.session_state:
