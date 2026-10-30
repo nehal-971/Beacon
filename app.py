@@ -4,11 +4,11 @@ from openai import OpenAI
 # --- PAGE CONFIGURATION ---
 st.set_page_config(page_title="BEACON", page_icon="✨", layout="wide")
 
-# --- CUSTOM BACKGROUND MAGIC ---
+# --- CUSTOM BACKGROUND MAGIC (IMAGE) ---
 page_bg_img = """
 <style>
 [data-testid="stAppViewContainer"] {
-    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+    background-image: url("https://img.freepik.com/free-vector/dark-gradient-background-with-copy-space_53876-99548.jpg");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -26,7 +26,6 @@ page_bg_img = """
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
 # --- INITIALIZE AI CLIENT ---
-# We use st.secrets here so your key is safe on GitHub
 client = OpenAI(
     base_url="https://api.groq.com/openai/v1",
     api_key=st.secrets["GROQ_API_KEY"] 
